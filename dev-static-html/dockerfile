@@ -1,0 +1,27 @@
+# 使用輕量級的 Node.js 映像（方便啟動 HTTP server）
+FROM node:22-alpine
+
+# 設定工作目錄
+WORKDIR /usr/src/app
+
+# 安裝 git
+RUN apk add --no-cache git bash
+
+# 複製當前目錄內容到工作目錄
+# COPY . .
+
+# 設定環境變數（Git 倉庫 URL）
+# ENV GIT_REPO_URL=https://github.com/paul61843/yuanta_project.git
+# ENV GIT_BRANCH=main
+
+# 拉取 Git 倉庫內容
+# RUN git clone -b $GIT_BRANCH $GIT_REPO_URL .
+
+# 安裝簡單 HTTP server（提供 HTML 預覽）
+RUN npm install -g live-server
+
+# 開放 8080 端口
+EXPOSE 8080
+
+# 啟動 HTTP server
+CMD ["live-server", ".", "--host=0.0.0.0", "--port=8080", "--no-cache"]
